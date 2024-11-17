@@ -35,6 +35,12 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupSubviews()
+        
+        #if DEBUG
+        view.backgroundColor = .red
+        #else
+        view.backgroundColor = .blue
+        #endif
     }
     
     func setupSubviews() {
