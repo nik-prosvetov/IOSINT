@@ -2,29 +2,52 @@
 //  FeedViewController.swift
 //  Navigation
 //
-//  Created by Nikita Prosvetov on 28.09.2024.
-//
 
 import UIKit
-import StorageService
 
-class FeedViewController: UIViewController {
+final class FeedViewController: UIViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = .systemTeal
         
-        let button = UIButton(type: .system)
-        button.setTitle("Показать пост", for: .normal)
-        button.addTarget(self, action: #selector(showPost), for: .touchUpInside)
-        view.addSubview(button)
+        createSubView()
+    }
+    
+    private func createSubView() {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.distribution = .fillEqually
+        view.addSubview(stackView)
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            stackView.heightAnchor.constraint(equalToConstant: 200),
+            stackView.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, constant: -32)
+        ])
+        addPostButton(title: "Post number One", color: .systemPurple, to: stackView, selector: #selector(tapPostButton))
+        addPostButton(title: "Post number Two", color: .systemIndigo, to: stackView, selector: #selector(tapPostButton))
+    }
+    
+    private func addPostButton(title: String, color: UIColor, to view: UIStackView, selector: Selector) {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        button.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100).isActive = true
+        button.setTitle(title, for: .normal)
+        button.backgroundColor = color
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = LayoutConstants.cornerRadius
+        button.addTarget(self, action: selector, for: .touchUpInside)
+        view.addArrangedSubview(button)
     }
     
-    @objc func showPost() {
-        let postViewController = PostViewController(post: post)
-        navigationController?.pushViewController(postViewController, animated: true)
+    @objc func tapPostButton() {
+        let post = postExamples[0]
+        
+        let postVC = PostViewController()
+        postVC.post = post
+        navigationController?.pushViewController(postVC, animated: true)
     }
-    
-    let post = Post(title: "Мой первый пост")
 }
