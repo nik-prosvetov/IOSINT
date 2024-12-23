@@ -3,6 +3,7 @@
 //  Navigation
 //
 
+import StorageService
 import UIKit
 
 class PostTableViewCell: UITableViewCell {

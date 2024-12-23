@@ -7,6 +7,8 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
+    var user: User?
+    
     static let headerIdent = "header"
     static let photoIdent = "photo"
     static let postIdent = "post"
@@ -24,8 +26,12 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .systemBackground
+        
+#if DEBUG
+        view.backgroundColor = .red
+#else
+        view.backgroundColor = .white
+#endif
         
         view.addSubview(Self.postTableView)
         setupConstraints()
@@ -43,7 +49,7 @@ final class ProfileViewController: UIViewController {
             Self.postTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-
+    
     @objc func reloadTableView() {
         Self.postTableView.reloadData()
         Self.postTableView.refreshControl?.endRefreshing()
@@ -53,7 +59,7 @@ final class ProfileViewController: UIViewController {
 // MARK: - Extensions
 
 extension ProfileViewController: UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0: return 1
@@ -63,7 +69,7 @@ extension ProfileViewController: UITableViewDataSource {
             return 1
         }
     }
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -85,17 +91,18 @@ extension ProfileViewController: UITableViewDelegate {
             return UITableViewCell()
         }
     }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard section == 0 else { return nil }
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: Self.headerIdent) as! ProfileHeaderView
+        headerView.configure(with: user)
         return headerView
     }
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return section == 0 ? 220 : 0
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
@@ -111,4 +118,3 @@ extension ProfileViewController: UITableViewDelegate {
         }
     }
 }
-

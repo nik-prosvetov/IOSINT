@@ -3,6 +3,7 @@
 //  Navigation
 //
 
+import StorageService
 import UIKit
 
 final class PostViewController: UIViewController {
@@ -15,7 +16,6 @@ final class PostViewController: UIViewController {
         title = post?.author ?? "-"
         view.backgroundColor = .systemYellow
         
-        // add a button in the navigtion bar
         let barButton = UIBarButtonItem(title: "Info", style: .done, target: self, action: #selector(tapInfoButton))
         navigationItem.rightBarButtonItem = barButton
     }
