@@ -21,6 +21,15 @@ final class ProfileHeaderView: UITableViewHeaderFooterView {
     private var statusText = "Ready to help"
     private var avatarOriginPoint = CGPoint()
     
+    func configure(with user: User?) {
+        guard let user = user else { return }
+        
+        fullNameLabel.text = user.fullName
+        statusLabel.text = user.status
+        avatarImageView.image = user.avatar
+        statusText = user.status
+    }
+    
     // MARK: - Setup section
     
     override init(reuseIdentifier: String?) {
